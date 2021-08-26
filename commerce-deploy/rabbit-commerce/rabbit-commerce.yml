@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  rabbit-commerce:
+    image: rabbitmq:3.8.3-management
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    volumes:
+      - rabbitmq_logs:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbit_network
+
+volumes:
+  rabbitmq_logs:
+
+networks:
+  rabbit_network:

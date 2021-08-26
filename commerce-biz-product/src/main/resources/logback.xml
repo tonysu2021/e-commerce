@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+	<property name="CHARSET" value="UTF-8" />
+	<property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss}[%-5level][%thread] %logger{36} - %msg%n" />
+	<property name="HOME_LOG" value="/opt/logs/commerce/biz.log"/>
+	
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+    </appender>
+    
+        <appender name="LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}</file>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+            <charset>${CHARSET}</charset>
+        </encoder>
+        
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each archived file, size max 10MB -->
+            <maxFileSize>100MB</maxFileSize>
+            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
+            <totalSizeCap>10GB</totalSizeCap>
+            <!-- 60 days to keep -->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.springframework" level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOG_FILE"/>
+    </logger>
+
+    <logger name="com.commerce" level="debug" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOG_FILE"/>
+    </logger>
+    
+    <logger name="reactor.netty" level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOG_FILE"/>
+    </root>
+
+</configuration>

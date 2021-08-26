@@ -1,0 +1,52 @@
+server:
+  port: 10079 
+  error:
+    include-message: always    
+spring:
+  application:
+      name: commerce-biz-customer
+  main:
+    allow-bean-definition-overriding: true
+  webflux:
+    base-path: /commerce-biz-customer
+  redis:
+    host: 172.20.111.176
+    port: 6379
+    timeout: 5000
+  r2dbc:
+    url: r2dbc:pool:postgres://172.20.111.176:5432/commerce_db
+    username: postgres
+    password: postgres
+  # For Rabbit Listener  
+  rabbitmq:
+    host: 172.20.111.176
+    port: 5672
+  cloud:
+    # Stream
+    stream:
+      bindings:
+        # (Biz) producer
+        customer-broadcast-out:
+          destination: customer-broadcast
+          contentType: application/json
+        # customer-consumer (only one server can consumer)
+        customer-in:
+          destination: customer
+          group: group
+          contentType: application/json
+          # Maximum number of attempts to consume the message when the message consumption fails
+          consumer:
+            max-attempts: 3
+      # dlx/dlq setup
+      rabbit:
+        bindings:
+          customer-in:
+            consumer:
+              # How long before an unused queue is deleted (in milliseconds).
+              expires: 3600000
+              # Once the survival time of a message in the queue exceeds the set TTL value, 
+              # it will become a dead letter
+              ttl: 5000
+              auto-bind-dlq: true
+              #  (in milliseconds).
+              dlq-ttl: 5000

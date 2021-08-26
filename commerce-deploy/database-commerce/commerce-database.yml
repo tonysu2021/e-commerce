@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  postgres-commerce:
+    # follow Azure PostgreSQL version
+    image: "postgres:13.1-alpine"
+    restart: "always"
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+      - ./postgres/init/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
+      - ./postgres/init/e-commerce-init.sql:/tmp/e-commerce-init.sql
+    ports:
+      - "5432:5432"
+    environment:
+      # Default Account: postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - botnet
+  # DB Version Control Tool
+  flyway:
+    image: flyway/flyway:7.9.1
+    command: -configFiles=/flyway/conf/flyway.config -locations=filesystem:/flyway/sql -connectRetries=60 migrate
+    volumes:
+      - ./flyway/sql:/flyway/sql
+      - ./flyway/conf/flyway.config:/flyway/conf/flyway.config
+    depends_on:
+      - postgres-commerce
+    networks:
+      - botnet
+
+networks:
+  botnet:
+    name: botnet
+    driver: bridge
+
+volumes:
+  postgres-storage:

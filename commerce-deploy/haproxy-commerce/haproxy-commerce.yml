@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  haproxy-commerce:
+    image: haproxy:2.3.4
+    deploy:
+      placement:
+        constraints:
+          - "node.labels.haproxyTag == true"
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg"
+    ports:
+      - "8511:8511"
+    networks:
+      - byfn
+
+networks:
+  byfn:
+    external:
+      name: byfn
