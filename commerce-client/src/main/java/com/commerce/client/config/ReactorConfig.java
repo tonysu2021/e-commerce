@@ -31,6 +31,6 @@ public class ReactorConfig {
 	
 	@Bean("customerClient")
 	public CustomerClient customerClient() {
-		return new CustomerClient(new WebClientTemplate(BIZ_URL));
+		return new CustomerClient(BIZ_URL);
 	}
 }

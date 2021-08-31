@@ -1,46 +1,46 @@
 package com.commerce.web.client;
 
+import org.springframework.cloud.openfeign.support.SpringMvcContract;
+
 import com.commerce.web.domain.CustomerDomain;
 import com.commerce.web.protocol.CustomerProtocol;
 import com.commerce.web.request.CustomerPostRequest;
 import com.commerce.web.request.CustomerPutRequest;
+import com.commerce.web.webclient.WebReactiveFeign;
 
+import reactivefeign.ReactiveContract;
+import reactivefeign.retry.BasicReactiveRetryPolicy;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class CustomerClient implements CustomerProtocol {
+public class CustomerClient {
 
-	private WebClientTemplate webClientTemplate;
-	
-	public CustomerClient(WebClientTemplate webClientTemplate) {
+	private CustomerProtocol protocol;
+
+	public CustomerClient(String url) {
 		super();
-		this.webClientTemplate = webClientTemplate;
+		this.protocol = WebReactiveFeign.<CustomerProtocol>builder()
+				.retryWhen(BasicReactiveRetryPolicy.retryWithBackoff(3, 500))
+				.contract(new ReactiveContract(new SpringMvcContract())).target(CustomerProtocol.class, url);
 	}
 
-	@Override
 	public Mono<CustomerDomain> getCustomer(String customerId) {
-		return webClientTemplate.getWithMono("/" + customerId, CustomerDomain.class);
+		return protocol.getCustomer(customerId);
 	}
 
-	@Override
 	public Flux<CustomerDomain> getCustomerList() {
-		return webClientTemplate.getWithFlux("", CustomerDomain.class);
+		return protocol.getCustomerList();
 	}
 
-	@Override
 	public Mono<CustomerDomain> addCustomer(CustomerPostRequest request) {
-		return webClientTemplate.postWithMono("", request, CustomerPostRequest.class, CustomerDomain.class);
+		return protocol.addCustomer(request);
 	}
 
-	@Override
 	public Mono<CustomerDomain> updateCustomer(String customerId, CustomerPutRequest request) {
-		return webClientTemplate.putWithMono("/" + customerId, request, CustomerPutRequest.class,
-				CustomerDomain.class);
+		return protocol.updateCustomer(customerId, request);
 	}
 
-	@Override
 	public Mono<Void> deleteCustomer(String customerId) {
-		return webClientTemplate.deleteWithMono("/" + customerId, Void.class);
+		return protocol.deleteCustomer(customerId);
 	}
-
 }
