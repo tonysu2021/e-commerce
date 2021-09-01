@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.commerce.client.service.CustomerService;
 import com.commerce.client.stream.ClientProducer;
-import com.commerce.stream.domain.StreamActionType;
-import com.commerce.stream.domain.StreamMessage;
-import com.commerce.web.domain.CustomerDomain;
-import com.commerce.web.exception.ResponseStatusCodeException;
+import com.commerce.stream.constant.StreamActionType;
+import com.commerce.stream.dto.StreamMessageDTO;
+import com.commerce.web.dto.CustomerDTO;
 import com.commerce.web.exception.ExceptionCode;
+import com.commerce.web.exception.ResponseStatusCodeException;
 import com.commerce.web.request.CustomerPostRequest;
 import com.commerce.web.request.CustomerPutRequest;
 import com.commerce.web.request.StreamRequest;
@@ -49,20 +49,20 @@ public class CustomerController {
 	protected CustomerService customerService;
 
 	@GetMapping(value = "/{customerId}")
-	public Mono<CustomerDomain> getCustomer(@PathVariable String customerId) {
+	public Mono<CustomerDTO> getCustomer(@PathVariable String customerId) {
 		return customerService.findByAppId(customerId)
 				.switchIfEmpty(Mono.error(new ResponseStatusCodeException(HttpStatus.NO_CONTENT)));
 	}
 
 	@GetMapping
-	public Flux<CustomerDomain> getCustomerList() {
+	public Flux<CustomerDTO> getCustomerList() {
 		return customerService.findAll();
 	}
 
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<CustomerDomain> addCustomer(@Validated @RequestBody CustomerPostRequest request) {
+	public Mono<CustomerDTO> addCustomer(@Validated @RequestBody CustomerPostRequest request) {
 		return customerService.findByAppId(request.getCustomerId())
-				.map((CustomerDomain domain) -> {
+				.map((CustomerDTO domain) -> {
 					if(StringUtils.isNotEmpty(domain.getCustomerId())) {
 						throw new ResponseStatusCodeException(HttpStatus.PRECONDITION_FAILED,ExceptionCode.CUSTOMER_EXISTED);
 					}
@@ -71,7 +71,7 @@ public class CustomerController {
 	}
 	
 	@PutMapping(value = "/{customerId}")
-	public Mono<CustomerDomain> updateCustomer(@IdFormat @PathVariable String customerId,
+	public Mono<CustomerDTO> updateCustomer(@IdFormat @PathVariable String customerId,
 			@Validated @RequestBody CustomerPutRequest request){
 		return customerService.findByAppId(customerId)
 				.switchIfEmpty(Mono.error(new ResponseStatusCodeException(HttpStatus.PRECONDITION_FAILED,ExceptionCode.CUSTOMER_NOT_EXIST)))
@@ -87,9 +87,9 @@ public class CustomerController {
 
 	@GetMapping(value = "/events/{rate}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<ServerSentEvent<? extends Serializable>> events(@PathVariable long rate) {
-		Flux<CustomerDomain> events = customerService.getEvent().delayElements(Duration.ofSeconds(rate)).log("events");
+		Flux<CustomerDTO> events = customerService.getEvent().delayElements(Duration.ofSeconds(rate)).log("events");
 		
-		Flux<ServerSentEvent<CustomerDomain>> sseData = events.map(event -> 
+		Flux<ServerSentEvent<CustomerDTO>> sseData = events.map(event -> 
 			ServerSentEvent.builder(event).event(event.getEventType().getDesc()).build());
 		Flux<ServerSentEvent<String>> ping = Flux.interval(Duration.ofSeconds(rate * 2))
 				.map(l -> ServerSentEvent.builder("").event("ping").data("").build());
@@ -97,14 +97,14 @@ public class CustomerController {
 	}
 	
 	@GetMapping(value = "/apiEvents/{rate}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public Flux<ServerSentEvent<CustomerDomain>> apiEvents(@PathVariable long rate) {
-		Flux<CustomerDomain> events = customerService.getEvent().delayElements(Duration.ofSeconds(rate)).log("apiEvents");
+	public Flux<ServerSentEvent<CustomerDTO>> apiEvents(@PathVariable long rate) {
+		Flux<CustomerDTO> events = customerService.getEvent().delayElements(Duration.ofSeconds(rate)).log("apiEvents");
 		
-		Flux<ServerSentEvent<CustomerDomain>> sseData = events.map(event -> 
+		Flux<ServerSentEvent<CustomerDTO>> sseData = events.map(event -> 
 			ServerSentEvent.builder(event).event("data").build());
 
 		return sseData.timeout(Duration.ofSeconds(60))
-				.onErrorReturn(ServerSentEvent.builder(new CustomerDomain()).event("close").build());
+				.onErrorReturn(ServerSentEvent.builder(new CustomerDTO()).event("close").build());
 	}
 	
 	@PostMapping(value = "/{type}",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -115,7 +115,7 @@ public class CustomerController {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Mono.just("no type"));
 		}
 		
-		StreamMessage<String> message = new StreamMessage<>();
+		StreamMessageDTO<String> message = new StreamMessageDTO<>();
 		message.setMessage(request.getPayload());
 		producer.sendToCustomer(streamType,message);
 		producer.sendToOrder(streamType,message);

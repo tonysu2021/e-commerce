@@ -10,16 +10,16 @@ spring:
   webflux:
     base-path: /commerce-biz-product
   redis:
-    host: 172.20.111.176
+    host: commerce-redis
     port: 6379
     timeout: 5000
   r2dbc:
-    url: r2dbc:pool:postgres://172.20.111.176:5432/commerce_db
+    url: r2dbc:pool:postgres://commerce-postgres:5432/commerce_db
     username: postgres
     password: postgres
   # For Rabbit Listener  
   rabbitmq:
-    host: 172.20.111.176
+    host: commerce-rabbit
     port: 5672
   cloud:
     # Stream

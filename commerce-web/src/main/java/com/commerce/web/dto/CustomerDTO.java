@@ -1,11 +1,11 @@
-package com.commerce.web.domain;
+package com.commerce.web.dto;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CustomerDomain extends BasicDomain implements Serializable {
+public class CustomerDTO extends BasicDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

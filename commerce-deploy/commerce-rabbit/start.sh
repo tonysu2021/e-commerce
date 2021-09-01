@@ -4,6 +4,6 @@ export RABBITMQ_DEFAULT_USER='guest'
 export RABBITMQ_DEFAULT_PASS='guest'
 
 echo "------------------------------------------------"
-echo "Build rabbit-commerce stack"
+echo "Build commerce-rabbit stack"
 echo "------------------------------------------------"
-docker-compose --compatibility -f rabbit-commerce.yml up -d
+docker-compose --compatibility -f commerce-rabbit.yml up -d

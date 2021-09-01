@@ -1,8 +1,8 @@
-package com.commerce.web.domain;
+package com.commerce.web.dto;
 
 import com.commerce.reactor.EventType;
 
-public class BasicDomain {
+public class BasicDTO {
 		
 	private EventType eventType;
 	

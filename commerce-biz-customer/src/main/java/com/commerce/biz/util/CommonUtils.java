@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.commerce.biz.entity.Customer;
-import com.commerce.web.domain.CustomerDomain;
+import com.commerce.biz.entity.CustomerEntity;
+import com.commerce.web.dto.CustomerDTO;
 
 public class CommonUtils {
 
@@ -15,8 +15,8 @@ public class CommonUtils {
 		// Do nothing
 	}
 
-	public static CustomerDomain convert(Customer entity) {
-		CustomerDomain domain = new CustomerDomain();
+	public static CustomerDTO convert(CustomerEntity entity) {
+		CustomerDTO domain = new CustomerDTO();
 		domain.setCustomerId(entity.getCustomerId());
 		domain.setName(entity.getName());
 		domain.setEnabled(entity.getEnabled());

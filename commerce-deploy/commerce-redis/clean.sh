@@ -1,7 +1,6 @@
 #!/bin/sh
 
 echo "------------------------------------------------"
-echo "Create commerce-database stack"
+echo "Remove commerc-redis stack"
 echo "------------------------------------------------"
-docker-compose --compatibility -f commerce-database.yml up --build -d
-
+docker-compose --compatibility -f commerc-redis.yml down

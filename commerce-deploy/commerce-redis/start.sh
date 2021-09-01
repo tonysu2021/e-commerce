@@ -1,6 +1,6 @@
 #!/bin/sh
 
 echo "------------------------------------------------"
-echo "Remove rabbit-commerce stack"
+echo "Build commerc-redis stack"
 echo "------------------------------------------------"
-docker-compose --compatibility -f rabbit-commerce.yml down
+docker-compose --compatibility -f commerc-redis.yml up -d

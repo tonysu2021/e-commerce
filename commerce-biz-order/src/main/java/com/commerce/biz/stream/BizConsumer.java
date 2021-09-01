@@ -12,9 +12,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import com.commerce.stream.annotation.EventHandler;
+import com.commerce.stream.constant.StreamActionType;
 import com.commerce.stream.constant.StreamHeader;
-import com.commerce.stream.domain.StreamActionType;
-import com.commerce.stream.domain.StreamMessage;
+import com.commerce.stream.dto.StreamMessageDTO;
 import com.commerce.stream.exception.ExceptionCodeEnum;
 import com.commerce.stream.protocol.StreamChannel;
 import com.commerce.stream.store.StreamTransactionHelper;
@@ -24,7 +24,7 @@ public class BizConsumer {
 	
 	@Autowired
 	@Qualifier("streamTransactionHelper")
-	private StreamTransactionHelper<StreamMessage<String>> helper;
+	private StreamTransactionHelper<StreamMessageDTO<String>> helper;
 	
 	@Autowired
 	@Qualifier("bizReplyProducer")
@@ -34,7 +34,7 @@ public class BizConsumer {
 	public void receiveMsgFromOrder(@Header(name = StreamHeader.X_SERVER_ID, required = true) UUID serverId,
 			@Header(name = StreamHeader.X_MESSAGE_ID, required = true) UUID messageId,
 			@Header(name = StreamHeader.X_EVENT_TYPE, required = true) StreamActionType type,
-			@Header(name = "deliveryAttempt", required = true) int attempt, @Payload StreamMessage<String> payload) {
+			@Header(name = "deliveryAttempt", required = true) int attempt, @Payload StreamMessageDTO<String> payload) {
 
 		helper.doInTransaction(StreamChannel.ORDER_INPUT, messageId, type, attempt, payload, item -> {
 			String msg = item.getMessage();
@@ -51,7 +51,7 @@ public class BizConsumer {
 	public void receiveMsgFromOrderP(@Header(name = StreamHeader.X_SERVER_ID, required = true) UUID serverId,
 			@Header(name = StreamHeader.X_MESSAGE_ID, required = true) UUID messageId,
 			@Header(name = StreamHeader.X_EVENT_TYPE, required = true) StreamActionType type,
-			@Header(name = "deliveryAttempt", required = true) int attempt, @Payload StreamMessage<String> payload) {
+			@Header(name = "deliveryAttempt", required = true) int attempt, @Payload StreamMessageDTO<String> payload) {
 
 		helper.doInTransaction(StreamChannel.ORDER_PRIORITY_INPUT, messageId, type, attempt, payload, item -> {
 			String msg = item.getMessage();

@@ -5,8 +5,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.commerce.reactor.EventSource;
 import com.commerce.reactor.processors.CustomEventProcessor;
-import com.commerce.web.client.CustomerClient;
 import com.commerce.web.client.WebClientTemplate;
+import com.commerce.web.protocol.CustomerProtocol;
+import com.commerce.web.webclient.ProtocolFactory;
 
 @Configuration
 public class ReactorConfig {
@@ -29,8 +30,8 @@ public class ReactorConfig {
 		return new WebClientTemplate(BASE_URL);
 	}
 	
-	@Bean("customerClient")
-	public CustomerClient customerClient() {
-		return new CustomerClient(BIZ_URL);
+	@Bean("customerProtocol")
+	public CustomerProtocol customerProtocol() {
+		return ProtocolFactory.createProtocol(BIZ_URL, CustomerProtocol.class);
 	}
 }

@@ -10,12 +10,12 @@ spring:
   webflux:
     base-path: /commerce-client
   redis:
-    host: 172.20.111.176
+    host: commerce-redis
     port: 6379
     timeout: 5000
   # For Rabbit Listener  
   rabbitmq:
-    host: 172.20.111.176
+    host: commerce-rabbit
     port: 5672
   cloud:
     # Stream

@@ -1,6 +1,6 @@
 #!/bin/sh
 
 echo "------------------------------------------------"
-echo "Build haproxy-commerce Service"
+echo "Remove commerce-postgres stack"
 echo "------------------------------------------------"
-docker stack deploy -c haproxy-commerce.yml --prune haproxy-commerce
+docker-compose --compatibility -f commerce-postgres.yml down -v

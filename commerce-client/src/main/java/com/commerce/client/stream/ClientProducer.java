@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
 import com.commerce.stream.conf.ServerInfo;
+import com.commerce.stream.constant.StreamActionType;
 import com.commerce.stream.constant.StreamHeader;
-import com.commerce.stream.domain.StreamActionType;
-import com.commerce.stream.domain.StreamMessage;
+import com.commerce.stream.dto.StreamMessageDTO;
 import com.commerce.stream.protocol.StreamChannel;
 
 @Component("clientProducer")
@@ -43,7 +43,7 @@ public class ClientProducer {
 	@Qualifier(StreamChannel.PRODUCT_OUTPUT)
 	private MessageChannel msgProductChannel;
 	
-	public <T> void sendToCustomer(StreamActionType streamType,StreamMessage<T> message) {
+	public <T> void sendToCustomer(StreamActionType streamType,StreamMessageDTO<T> message) {
 		LOGGER.info("[Client-Producer] Sending Message {} to customer", message);
 		msgCustomerChannel.send(MessageBuilder.withPayload(message)
 				.setHeader(StreamHeader.X_SERVER_ID, serverInfo.getServerId())
@@ -52,7 +52,7 @@ public class ClientProducer {
 				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());
 	}
 	
-	public <T> void sendToOrder(StreamActionType streamType,StreamMessage<T> message) {
+	public <T> void sendToOrder(StreamActionType streamType,StreamMessageDTO<T> message) {
 		LOGGER.info("[Client-Producer] Sending Message {} to order", message);
 		msgOrderChannel.send(MessageBuilder.withPayload(message)
 				.setHeader(StreamHeader.X_SERVER_ID, serverInfo.getServerId())
@@ -61,7 +61,7 @@ public class ClientProducer {
 				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());
 	}
 	
-	public <T> void sendToOrderP(StreamActionType streamType,StreamMessage<T> message) {
+	public <T> void sendToOrderP(StreamActionType streamType,StreamMessageDTO<T> message) {
 		LOGGER.info("[Client-Producer] Sending Message {} to order priority", message);
 		msgOrderPChannel.send(MessageBuilder.withPayload(message)
 				.setHeader(StreamHeader.X_SERVER_ID, serverInfo.getServerId())
@@ -70,7 +70,7 @@ public class ClientProducer {
 				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());
 	}
 	
-	public <T> void sendToProduct(StreamActionType streamType,StreamMessage<T> message) {
+	public <T> void sendToProduct(StreamActionType streamType,StreamMessageDTO<T> message) {
 		LOGGER.info("[Client-Producer] Sending Message {} to product", message);
 		msgProductChannel.send(MessageBuilder.withPayload(message)
 				.setHeader(StreamHeader.X_SERVER_ID, serverInfo.getServerId())

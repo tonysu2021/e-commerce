@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("cloud.customer")
-public class Customer extends BaseTable  {
+public class CustomerEntity extends BaseTableEntity  {
 	
 	@Id
 	@Column("customer_id")
@@ -23,7 +23,7 @@ public class Customer extends BaseTable  {
 	@Column("enabled")
 	private Boolean enabled;
 
-	public Customer() {
+	public CustomerEntity() {
 		// Do nothing
 	}
 

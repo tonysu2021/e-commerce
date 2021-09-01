@@ -8,8 +8,8 @@ import com.commerce.cache.client.CacheManager;
 import com.commerce.stream.annotation.EnableCustomMQ;
 import com.commerce.stream.annotation.EnableEventHandling;
 import com.commerce.stream.protocol.StreamProtocols;
-import com.commerce.stream.store.StreamRecord;
-import com.commerce.stream.store.StreamStores;
+import com.commerce.stream.store.StreamRecordPO;
+import com.commerce.stream.store.StreamStorage;
 import com.commerce.stream.store.StreamTransactionHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,25 +31,25 @@ public class StreamConfig {
 	}
 
 	@Bean
-	public StreamStores<StreamRecord> streamStores(CacheManager<StreamRecord> cacheManager) {
-		return new StreamStores<StreamRecord>() {
+	public StreamStorage<StreamRecordPO> streamStorage(CacheManager<StreamRecordPO> cacheManager) {
+		return new StreamStorage<StreamRecordPO>() {
 
 			@Override
-			public StreamRecord get(String key, Class<StreamRecord> clz) {
+			public StreamRecordPO get(String key, Class<StreamRecordPO> clz) {
 				return cacheManager.get(key, clz).block();
 			}
 
 			@Override
-			public Boolean save(String key, StreamRecord data) {
+			public Boolean save(String key, StreamRecordPO data) {
 				return cacheManager.save(key, data).block();
 			}
 		};
 	}
 
 	@Bean("streamTransactionHelper")
-	public <T> StreamTransactionHelper<T> streamTransactionHelper(StreamStores<StreamRecord> streamStores,
+	public <T> StreamTransactionHelper<T> streamTransactionHelper(StreamStorage<StreamRecordPO> streamStorage,
 			ObjectMapper mapper) {
-		return new StreamTransactionHelper<>(streamStores, mapper);
+		return new StreamTransactionHelper<>(streamStorage, mapper);
 	}
 
 }

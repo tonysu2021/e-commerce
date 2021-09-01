@@ -12,9 +12,9 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
+import com.commerce.stream.constant.StreamActionType;
 import com.commerce.stream.constant.StreamHeader;
-import com.commerce.stream.domain.StreamActionType;
-import com.commerce.stream.domain.StreamMessage;
+import com.commerce.stream.dto.StreamMessageDTO;
 import com.commerce.stream.protocol.StreamChannel;
 
 @Component("bizReplyProducer")
@@ -26,7 +26,7 @@ public class BizReplyProducer {
 	private MessageChannel msgOrderReplyChannel;
 
 	public <T> void sendToOrderReply(UUID serverId, UUID messageId, StreamActionType streamType,
-			StreamMessage<T> message) {
+			StreamMessageDTO<T> message) {
 		LOGGER.info("[Biz-Reply-Producer] Received Server id :{},Message id :{} , type : {}  from order.",
 				serverId, messageId, streamType);
 		msgOrderReplyChannel.send(MessageBuilder.withPayload(message)

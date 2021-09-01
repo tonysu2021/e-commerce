@@ -3,11 +3,19 @@
 * 練習規劃電子商務系統。
 * 服務註冊及請求路由，採用Service Mesh (Istio + Envoy)
 
-## 專案執行環境
+## 專案Local執行環境
 
 * Java 13 (jdk-13.0.2)
 * apache-maven-3.6.3
 * gradle-6.4
+* host設定
+
+  ```text
+  # E-commerce
+  172.20.111.184 commerce-postgres
+  172.20.111.184 commerce-rabbit
+  172.20.111.184 commerce-redis
+  ```
 
 ## E-Commerce Project Structure
 

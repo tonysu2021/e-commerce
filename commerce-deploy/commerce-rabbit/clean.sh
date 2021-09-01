@@ -1,6 +1,6 @@
 #!/bin/sh
 
 echo "------------------------------------------------"
-echo "Remove commerce-database stack"
+echo "Remove commerce-rabbit stack"
 echo "------------------------------------------------"
-docker-compose --compatibility -f commerce-database.yml down -v
+docker-compose --compatibility -f commerce-rabbit.yml down

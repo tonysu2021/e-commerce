@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.commerce.cache.client.CacheManager;
 import com.commerce.reactor.EventSource;
-import com.commerce.web.client.CustomerClient;
-import com.commerce.web.domain.CustomerDomain;
+import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.protocol.CustomerProtocol;
 import com.commerce.web.request.CustomerPostRequest;
 import com.commerce.web.request.CustomerPutRequest;
 
@@ -18,40 +18,40 @@ import reactor.core.publisher.Mono;
 public class CustomerService {
 
 	@Autowired
-	private CacheManager<CustomerDomain> cacheManager;
+	private CacheManager<CustomerDTO> cacheManager;
 
 	@Autowired
-	@Qualifier("customerClient")
-	private CustomerClient customerClient;
+	@Qualifier("customerProtocol")
+	private CustomerProtocol protocol;
 
 	@Autowired
 	@Qualifier("eventSource")
-	private EventSource<CustomerDomain> eventSource;
+	private EventSource<CustomerDTO> eventSource;
 
-	public Flux<CustomerDomain> findAll() {
-		return customerClient.getCustomerList();
+	public Flux<CustomerDTO> findAll() {
+		return protocol.getCustomerList();
 	}
 
-	public Mono<CustomerDomain> findByAppId(String customerId) {
-		return cacheManager.get(customerId, CustomerDomain.class)
-				.switchIfEmpty(customerClient.getCustomer(customerId)
+	public Mono<CustomerDTO> findByAppId(String customerId) {
+		return cacheManager.get(customerId, CustomerDTO.class)
+				.switchIfEmpty(protocol.getCustomer(customerId)
 						.flatMap(data -> cacheManager.save(data.getCustomerId(), data).map(i -> data))
 					);
 	}
 	
-	public Mono<CustomerDomain> saveCustomer(CustomerPostRequest request) {
-		return customerClient.addCustomer(request);
+	public Mono<CustomerDTO> saveCustomer(CustomerPostRequest request) {
+		return protocol.addCustomer(request);
 	}
 	
-	public Mono<CustomerDomain> updateCustomer(String customerId,CustomerPutRequest request){
-		return customerClient.updateCustomer(customerId, request);
+	public Mono<CustomerDTO> updateCustomer(String customerId,CustomerPutRequest request){
+		return protocol.updateCustomer(customerId, request);
 	}
 	
 	public Mono<Void> deleteCustomer(String customerId){
-		return customerClient.deleteCustomer(customerId);
+		return protocol.deleteCustomer(customerId);
 	}
 
-	public Flux<CustomerDomain> getEvent() {
+	public Flux<CustomerDTO> getEvent() {
 		return eventSource.getFlux();
 	}
 }

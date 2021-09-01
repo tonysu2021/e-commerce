@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.commerce.biz.service.CustomerService;
 import com.commerce.biz.util.CommonUtils;
-import com.commerce.web.domain.CustomerDomain;
-import com.commerce.web.exception.ResponseStatusCodeException;
+import com.commerce.web.dto.CustomerDTO;
 import com.commerce.web.exception.ExceptionCode;
+import com.commerce.web.exception.ResponseStatusCodeException;
 import com.commerce.web.protocol.CustomerProtocol;
 import com.commerce.web.request.CustomerPostRequest;
 import com.commerce.web.request.CustomerPutRequest;
@@ -29,24 +29,24 @@ public class CustomerController implements CustomerProtocol {
 	protected CustomerService customerService;
 
 	@Override
-	public Mono<CustomerDomain> getCustomer(@PathVariable String customerId) {
+	public Mono<CustomerDTO> getCustomer(@PathVariable String customerId) {
 		return customerService.findByAppId(customerId).map(CommonUtils::convert);
 	}
 
 	@Override
-	public Flux<CustomerDomain> getCustomerList() {
+	public Flux<CustomerDTO> getCustomerList() {
 		return customerService.findAll().map(CommonUtils::convert);
 	}
 
 	@Override
-	public Mono<CustomerDomain> addCustomer(@RequestBody CustomerPostRequest request) {
+	public Mono<CustomerDTO> addCustomer(@RequestBody CustomerPostRequest request) {
 		return customerService
 				.saveCustomer(request.getCustomerId(), request.getName(), request.getEmail(), request.getCustomerId())
 				.map(CommonUtils::convert);
 	}
 
 	@Override
-	public Mono<CustomerDomain> updateCustomer(String customerId, CustomerPutRequest request) {
+	public Mono<CustomerDTO> updateCustomer(String customerId, CustomerPutRequest request) {
 		return customerService.findByAppId(customerId)
 				.switchIfEmpty(Mono.error(
 						new ResponseStatusCodeException(HttpStatus.PRECONDITION_FAILED, ExceptionCode.CUSTOMER_NOT_EXIST)))

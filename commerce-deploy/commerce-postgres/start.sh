@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo "------------------------------------------------"
-echo "Build redis-commerce stack"
+echo "Create commerce-postgres stack"
 echo "------------------------------------------------"
-docker-compose --compatibility -f redis-commerce.yml up -d
+docker-compose --compatibility -f commerce-postgres.yml up --build -d
+

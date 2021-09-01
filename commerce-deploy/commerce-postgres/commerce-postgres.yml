@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  postgres-commerce:
+  commerce-postgres:
     # follow Azure PostgreSQL version
     image: "postgres:13.1-alpine"
     restart: "always"
@@ -24,7 +24,7 @@ services:
       - ./flyway/sql:/flyway/sql
       - ./flyway/conf/flyway.config:/flyway/conf/flyway.config
     depends_on:
-      - postgres-commerce
+      - commerce-postgres
     networks:
       - botnet
 

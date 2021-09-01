@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
 import com.commerce.stream.conf.ServerInfo;
+import com.commerce.stream.constant.StreamActionType;
 import com.commerce.stream.constant.StreamHeader;
-import com.commerce.stream.domain.StreamActionType;
-import com.commerce.stream.domain.StreamMessage;
+import com.commerce.stream.dto.StreamMessageDTO;
 import com.commerce.stream.protocol.StreamChannel;
 
 @Component("bizReplyProducer")
@@ -32,7 +32,7 @@ public class BizReplyProducer {
 
 
 	
-	public <T> void sendToCustomerBroadcast(StreamMessage<T> message) {
+	public <T> void sendToCustomerBroadcast(StreamMessageDTO<T> message) {
 		LOGGER.info("[Biz-Reply-Producer] Sending Message {} to Client from customer", message);
 		msgBizChannel.send(MessageBuilder.withPayload(message)
 				.setHeader(StreamHeader.X_SERVER_ID, serverInfo.getServerId())

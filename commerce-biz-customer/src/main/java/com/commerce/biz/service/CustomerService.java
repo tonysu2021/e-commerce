@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.commerce.biz.entity.Customer;
+import com.commerce.biz.entity.CustomerEntity;
 import com.commerce.biz.repository.CustomerRepository;
 import com.commerce.biz.stream.BizReplyProducer;
 import com.commerce.biz.util.CommonUtils;
 import com.commerce.cache.client.CacheManager;
 import com.commerce.reactor.EventType;
-import com.commerce.stream.domain.StreamMessage;
-import com.commerce.web.domain.CustomerDomain;
+import com.commerce.stream.dto.StreamMessageDTO;
+import com.commerce.web.dto.CustomerDTO;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,21 +26,21 @@ public class CustomerService {
 	private BizReplyProducer producer;
 
 	@Autowired
-	private CacheManager<CustomerDomain> cacheManager;
+	private CacheManager<CustomerDTO> cacheManager;
 
 	@Autowired
 	private CustomerRepository customerAppRepository;
 
-	public Flux<Customer> findAll() {
+	public Flux<CustomerEntity> findAll() {
 		return customerAppRepository.findAll();
 	}
 
-	public Mono<Customer> findByAppId(String customerId) {
+	public Mono<CustomerEntity> findByAppId(String customerId) {
 		return customerAppRepository.findByAppId(customerId, null);
 	}
 
-	public Mono<Customer> saveCustomer(String customerId, String name, String email ,String createBy) {
-		Customer customer = new Customer();
+	public Mono<CustomerEntity> saveCustomer(String customerId, String name, String email ,String createBy) {
+		CustomerEntity customer = new CustomerEntity();
 		customer.setCustomerId(customerId);
 		customer.setName(name);
 		customer.setEmail(email);
@@ -52,31 +52,31 @@ public class CustomerService {
 				.doOnSuccess(data -> sendMsg(data,EventType.DATA_CREATE));
 	}
 
-	public Mono<Customer> updateCustomer(Customer customer, String modifyBy) {
+	public Mono<CustomerEntity> updateCustomer(CustomerEntity customer, String modifyBy) {
 		customer.setModifyTime(Instant.now());
 		customer.setModifyBy(modifyBy);
 		return customerAppRepository.save(customer)
-				.doOnSuccess(data -> cacheManager.delete(customer.getCustomerId(), CustomerDomain.class).subscribe())
+				.doOnSuccess(data -> cacheManager.delete(customer.getCustomerId(), CustomerDTO.class).subscribe())
 				// Send the latest information to RabbitMq
 				.doOnSuccess(data -> sendMsg(data,EventType.DATA_UPATE));
 	}
 	
-	private void sendMsg(Customer data,EventType eventType) {
-		CustomerDomain domain = CommonUtils.convert(data);
+	private void sendMsg(CustomerEntity data,EventType eventType) {
+		CustomerDTO domain = CommonUtils.convert(data);
 		domain.setEventType(eventType);
-		StreamMessage<CustomerDomain> message = new StreamMessage<>();
+		StreamMessageDTO<CustomerDTO> message = new StreamMessageDTO<>();
 		message.setMessage(domain);
 		producer.sendToCustomerBroadcast(message);
 	}
 
-	public Mono<Customer> disabledCustomer(Customer customer) {
+	public Mono<CustomerEntity> disabledCustomer(CustomerEntity customer) {
 		customer.setEnabled(Boolean.FALSE);
 		return customerAppRepository.save(customer);
 	}
 
-	public Mono<Void> deleteCustomer(Customer customer) {
+	public Mono<Void> deleteCustomer(CustomerEntity customer) {
 		return customerAppRepository.delete(customer)
-				.doOnSuccess(data -> cacheManager.delete(customer.getCustomerId(), CustomerDomain.class).subscribe())
+				.doOnSuccess(data -> cacheManager.delete(customer.getCustomerId(), CustomerDTO.class).subscribe())
 				.doOnSuccess(data -> sendMsg(customer,EventType.DATA_DELETE));
 	}
 }

@@ -12,7 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
  * 
  */
 @Table("cloud.base_table")
-public abstract class BaseTable implements Persistable<String>{
+public abstract class BaseTableEntity implements Persistable<String>{
 
 	@Column("from_ip")
 	private String fromIp;
@@ -32,7 +32,7 @@ public abstract class BaseTable implements Persistable<String>{
 	@Transient
     private boolean isNew;
 
-	protected BaseTable() {
+	protected BaseTableEntity() {
 		// Do nothing 
 	}
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
 echo "------------------------------------------------"
-echo "Remove redis-commerce stack"
+echo "Build commerce-haproxy Service"
 echo "------------------------------------------------"
-docker-compose --compatibility -f redis-commerce.yml down
+docker stack deploy -c commerce-haproxy.yml --prune commerce-haproxy
