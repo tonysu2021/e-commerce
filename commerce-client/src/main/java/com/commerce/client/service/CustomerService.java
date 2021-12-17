@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.commerce.cache.client.CacheManager;
 import com.commerce.reactor.EventSource;
-import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.dto.event.CustomerDTO;
+import com.commerce.web.dto.request.CustomerPostRequest;
+import com.commerce.web.dto.request.CustomerPutRequest;
 import com.commerce.web.protocol.CustomerProtocol;
-import com.commerce.web.request.CustomerPostRequest;
-import com.commerce.web.request.CustomerPutRequest;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

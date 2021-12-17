@@ -24,12 +24,12 @@ import com.commerce.client.service.CustomerService;
 import com.commerce.client.stream.ClientProducer;
 import com.commerce.stream.constant.StreamActionType;
 import com.commerce.stream.dto.StreamMessageDTO;
-import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.dto.event.CustomerDTO;
+import com.commerce.web.dto.request.CustomerPostRequest;
+import com.commerce.web.dto.request.CustomerPutRequest;
+import com.commerce.web.dto.request.StreamRequest;
 import com.commerce.web.exception.ExceptionCode;
 import com.commerce.web.exception.ResponseStatusCodeException;
-import com.commerce.web.request.CustomerPostRequest;
-import com.commerce.web.request.CustomerPutRequest;
-import com.commerce.web.request.StreamRequest;
 import com.commerce.web.validator.IdFormat;
 
 import reactor.core.publisher.Flux;

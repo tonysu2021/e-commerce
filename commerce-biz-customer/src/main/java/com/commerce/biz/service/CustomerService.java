@@ -13,7 +13,7 @@ import com.commerce.biz.util.CommonUtils;
 import com.commerce.cache.client.CacheManager;
 import com.commerce.reactor.EventType;
 import com.commerce.stream.dto.StreamMessageDTO;
-import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.dto.event.CustomerDTO;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

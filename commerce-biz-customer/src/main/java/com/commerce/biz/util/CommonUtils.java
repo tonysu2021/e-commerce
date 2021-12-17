@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.commerce.biz.entity.CustomerEntity;
-import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.dto.event.CustomerDTO;
 
 public class CommonUtils {
 

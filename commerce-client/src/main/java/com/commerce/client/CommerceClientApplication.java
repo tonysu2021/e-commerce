@@ -5,12 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.auth.common.annotation.EnableAuth;
 import com.commerce.cache.EnableCache;
-import com.commerce.web.annotation.EnableServiceCommon;
+import com.commerce.web.annotation.EnableCommonService;
 
 @SpringBootApplication
 @EnableCache
 @EnableAuth
-@EnableServiceCommon
+@EnableCommonService
 public class CommerceClientApplication {
 
 	public static void main(String[] args) {

@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  redis-commerce:
+  commerce-redis:
     image: "redis:6.0.10-alpine"
     command: redis-server --appendonly yes
     restart: always

@@ -1,0 +1,61 @@
+@host = 127.0.0.1:10078
+
+### 測試是否根據eventType過濾訊息，因此只有Biz-Customer收到訊息。
+
+# @name normal
+
+POST /commerce-client/customer/normal HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "payload":"1111"
+}
+
+### 交易中心會收到DLQ訊息
+
+# @name test_error
+
+POST /commerce-client/customer/test HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "payload":"error"
+}
+
+###
+
+# @name test_pass_a
+
+POST /commerce-client/customer/test HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "payload":"pass-a"
+}
+
+###
+
+# @name test_pass_b
+
+POST /commerce-client/customer/test HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "payload":"pass-b"
+}
+
+###
+
+# @name test_reply
+
+POST /commerce-client/customer/test HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "payload":"33333"
+}

@@ -7,8 +7,10 @@ spring:
       name: commerce-trading-center
   main:
     allow-bean-definition-overriding: true
+  profiles:
+    active: ${PROFILE_ACTIVE:local}
   webflux:
-    base-path: /commerce-trading-center
+    base-path: /api
   redis:
     host: commerce-redis
     port: 6379

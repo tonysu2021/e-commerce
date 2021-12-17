@@ -15,15 +15,16 @@ spec:
         version: v1
     spec:
       containers:
-      - name: commerce-client
-        image: commerce-client:0.0.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 10078
-        env:
-          - name: VERSION
-            value: "v1"
+        - name: commerce-client
+          image: commerce-client:0.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 10078
+          env:
+            - name: VERSION
+              value: "v1"
 ---
+# 作為叢集外部客戶端訪問入口
 apiVersion: v1
 kind: Service
 metadata:
@@ -33,7 +34,12 @@ metadata:
 spec:
   type: NodePort
   ports:
+    ## 服務訪問埠，叢集內部訪問的埠
     - port: 10078
+      # pod控制器中定義的埠（應用訪問的埠）
+      targetPort: 10078
+      # NodePort，外部客戶端訪問的埠
+      nodePort: 30078
       name: http
   selector:
     app: commerce-client

@@ -1,0 +1,10 @@
+# Config Maps for RabbitMQ Configurations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbit-config
+  labels:
+    app: commerce-rabbit
+data:
+  RABBITMQ_DEFAULT_USER: guest
+  RABBITMQ_DEFAULT_PASS: guest

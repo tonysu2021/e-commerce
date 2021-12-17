@@ -1,0 +1,12 @@
+spring:
+  redis:
+    host: commerce-redis
+    port: 30379
+    timeout: 5000
+  r2dbc:
+    url: r2dbc:pool:postgres://commerce-postgres:30432/commerce_db
+    username: postgres
+    password: postgres
+  rabbitmq:
+    host: commerce-rabbit
+    port: 30672

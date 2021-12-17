@@ -1,14 +1,13 @@
 package com.commerce.client.controller;
 
-import javax.validation.constraints.NotBlank;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth.common.domain.AuthDomain;
@@ -31,13 +30,12 @@ public class AuthController {
 	}
 
 	@PostMapping(value = "/refreshToken", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<AuthDomain> refreshToken(@RequestHeader(value = "Authorization") String token,
-			@NotBlank @RequestHeader(value = "x-username") String userName) {
-		return authService.refreshToken(userName, token);
+	public Mono<AuthDomain> refreshToken(@RequestParam(name = "refresh_token") String refreshToken) {
+		return authService.refreshToken(refreshToken);
 	}
-	
-	@PostMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Mono<Boolean> logout(@NotBlank @RequestHeader(value = "x-username") String userName) {
+
+	@DeleteMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Mono<Boolean> logout(@RequestParam(name = "username") String userName) {
 		return authService.logout(userName);
 	}
 }

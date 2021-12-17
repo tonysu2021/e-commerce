@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.commerce.biz.service.CustomerService;
 import com.commerce.biz.util.CommonUtils;
-import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.dto.event.CustomerDTO;
+import com.commerce.web.dto.request.CustomerPostRequest;
+import com.commerce.web.dto.request.CustomerPutRequest;
 import com.commerce.web.exception.ExceptionCode;
 import com.commerce.web.exception.ResponseStatusCodeException;
 import com.commerce.web.protocol.CustomerProtocol;
-import com.commerce.web.request.CustomerPostRequest;
-import com.commerce.web.request.CustomerPutRequest;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

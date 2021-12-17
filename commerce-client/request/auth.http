@@ -1,0 +1,35 @@
+@gatewayHost = 127.0.0.1:10077
+@username = tony01
+@password = 123456
+
+### 登入
+
+# @name login
+
+POST /commerce-client/auth/login HTTP/1.1
+Host: {{gatewayHost}}
+Content-Type: application/json
+
+{
+    "userName": "{{username}}",
+    "password":"{{password}}"
+}
+
+### 刷新Token
+
+@accessToken = {{login.response.body.access_token}}
+@refreshToken = {{login.response.body.refresh_token}}
+
+# @name refresh_token
+
+POST /commerce-client/auth/refreshToken?refresh_token={{refreshToken}} HTTP/1.1
+Host: {{gatewayHost}}
+Authorization: Bearer {{accessToken}}
+
+### 登出
+
+# @name logout
+
+DELETE /commerce-client/auth/logout?username={{username}} HTTP/1.1
+Host: {{gatewayHost}}
+Authorization: Bearer {{accessToken}}

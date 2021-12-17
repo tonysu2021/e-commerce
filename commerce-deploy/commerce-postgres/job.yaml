@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: flyway-migration-job
+  labels:
+    app: commerce-postgres
+spec:
+  template:
+    spec:
+      containers:
+        - name: flyway
+          image: flyway/flyway:7.9.1
+          command:
+            [
+              "flyway",
+              "-configFiles=/flyway/conf/flyway.config",
+              "-locations=filesystem:/flyway/sql",
+              "-connectRetries=60",
+              "migrate",
+            ]
+          volumeMounts:
+            - mountPath: /flyway/sql
+              name: flyway-sql
+            - mountPath: /flyway/conf/flyway.config
+              name: flyway-conf
+      volumes:
+        - name: flyway-sql
+          hostPath:
+            path: /opt/flyway/sql
+            type: DirectoryOrCreate
+        - name: flyway-conf
+          hostPath:
+            path: /opt/flyway/conf/flyway.config
+            type: File
+      restartPolicy: Never
+  backoffLimit: 1

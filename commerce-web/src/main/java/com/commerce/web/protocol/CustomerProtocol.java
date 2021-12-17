@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.commerce.web.dto.CustomerDTO;
-import com.commerce.web.request.CustomerPostRequest;
-import com.commerce.web.request.CustomerPutRequest;
+import com.commerce.web.dto.event.CustomerDTO;
+import com.commerce.web.dto.request.CustomerPostRequest;
+import com.commerce.web.dto.request.CustomerPutRequest;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

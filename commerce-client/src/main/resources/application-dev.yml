@@ -1,0 +1,50 @@
+spring:
+  redis:
+    host: commerce-redis
+    port: 6379
+    timeout: 5000
+  # For Rabbit Listener  
+  rabbitmq:
+    host: commerce-rabbit
+    port: 5672
+  cloud:
+    # Stream
+    stream:         
+      bindings:
+        # (Biz) consumer
+        customer-broadcast-in:
+          destination: customer-broadcast
+          contentType: application/json
+        # order-consumer
+        order-reply-in:
+          destination: order-reply
+          contentType: application/json
+        # customer-producer
+        customer-out:
+          destination: customer
+          contentType: application/json
+        # order-producer
+        order-out:
+          destination: order
+          contentType: application/json
+        order-priority-out:
+          destination: order-priority
+          contentType: application/json
+        # product-producer
+        product-out:
+          destination: product
+          contentType: application/json
+      # dlx/dlq setup
+      rabbit:
+        bindings:
+          customer-broadcast-in:
+            consumer:
+              # How long before an unused queue is deleted (in milliseconds).
+              expires: 3600000
+              # Once the survival time of a message in the queue exceeds the set TTL value, 
+              # it will become a dead letter
+              ttl: 5000
+          order-reply-in:
+            consumer:
+              expires: 3600000
+              ttl: 5000

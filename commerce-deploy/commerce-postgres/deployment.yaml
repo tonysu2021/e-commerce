@@ -1,0 +1,56 @@
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: commerce-postgres
+  labels:
+    app: commerce-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: commerce-postgres
+  template:
+    metadata:
+      labels:
+        app: commerce-postgres
+    spec:
+      containers:
+        - name: commerce-postgres
+          image: postgres:13.1-alpine
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-pv-storage
+            - mountPath: /docker-entrypoint-initdb.d
+              name: init-volume
+      volumes:
+        - name: postgres-pv-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+        - name: init-volume
+          hostPath:
+            path: /opt/postgres/init
+            type: DirectoryOrCreate
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: commerce-postgres
+  labels:
+    app: commerce-postgres
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30432
+      name: tcp
+  selector:
+    app: commerce-postgres

@@ -1,0 +1,53 @@
+# Redis Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: commerce-redis
+  labels:
+    app: commerce-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: commerce-redis
+  template:
+    metadata:
+      name: commerce-redis
+      labels:
+        app: commerce-redis
+        version: v1
+    spec:
+      containers:
+        - name: commerce-redis
+          image: redis:6.0.10-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          volumeMounts:
+            - mountPath: /data
+              name: redis-storage
+      volumes:
+        - name: redis-storage
+          persistentVolumeClaim:
+            claimName: redis-pv-claim
+---
+# Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: commerce-redis
+  labels:
+    app: commerce-redis
+spec:
+  type: NodePort
+  ports:
+    - port: 6379
+      targetPort: 6379
+      nodePort: 30379
+      name: tcp
+  selector:
+    app: commerce-redis

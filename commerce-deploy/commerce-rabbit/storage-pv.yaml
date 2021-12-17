@@ -1,0 +1,30 @@
+# Persistent Storage Volume
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: rabbit-pv-volume
+  labels:
+    type: local
+    app: commerce-rabbit
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/rabbit-log"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: rabbit-pv-claim
+  labels:
+    app: commerce-rabbit
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

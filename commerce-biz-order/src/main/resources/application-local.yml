@@ -1,0 +1,50 @@
+spring:
+  redis:
+    host: commerce-redis
+    port: 30379
+    timeout: 5000
+  r2dbc:
+    url: r2dbc:pool:postgres://commerce-postgres:30432/commerce_db
+    username: postgres
+    password: postgres
+  # For Rabbit Listener  
+  rabbitmq:
+    host: commerce-rabbit
+    port: 30672
+  cloud:
+    # Stream
+    stream:
+      bindings:
+        # order-reply-producer
+        order-reply-out:
+          destination: order-reply
+          contentType: application/json
+        # order-consumer
+        order-in:
+          destination: order
+          group: group
+          contentType: application/json
+          consumer:
+            max-attempts: 3
+        # orderr-priority-consumer
+        order-priority-in:
+          destination: order-priority
+          group: group
+          contentType: application/json
+          consumer:
+            max-attempts: 3
+      # dlx/dlq setup
+      rabbit:
+        bindings:
+          order-in:
+            consumer:
+              expires: 3600000
+              ttl: 5000
+              auto-bind-dlq: true
+              dlq-ttl: 5000
+          order-priority-in:
+            consumer:
+              expires: 3600000
+              ttl: 5000
+              auto-bind-dlq: true
+              dlq-ttl: 5000

@@ -1,0 +1,10 @@
+# Config Maps for PostgreSQL Configurations
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: commerce-postgres
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres

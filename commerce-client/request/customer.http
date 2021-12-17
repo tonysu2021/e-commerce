@@ -1,0 +1,51 @@
+@host = 127.0.0.1:10078
+@new_customer = dean
+
+### 
+
+# @name find_all_customer
+
+GET /commerce-client/customer HTTP/1.1
+Host: {{host}}
+
+### 
+
+# @name register_customer
+
+POST /commerce-client/customer HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "email": "{{new_customer}}@gmail.com",
+    "customerId":"{{new_customer}}",
+    "name":"A"
+}
+
+### 
+
+# @name find_customer
+
+GET /commerce-client/customer/{{new_customer}} HTTP/1.1
+Host: {{host}}
+
+###
+
+# @name update_customer_name
+
+PUT /commerce-client/customer/{{new_customer}} HTTP/1.1
+Host: {{host}}
+Content-Type: application/json
+
+{
+    "name":"NO NAME"
+}
+
+###
+
+# @name delete_customer
+
+DELETE /commerce-client/customer/{{new_customer}} HTTP/1.1
+Host: {{host}}
+
+###

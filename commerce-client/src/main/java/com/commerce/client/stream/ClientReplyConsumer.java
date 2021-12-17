@@ -15,7 +15,7 @@ import com.commerce.stream.constant.StreamHeader;
 import com.commerce.stream.dto.StreamMessageDTO;
 import com.commerce.stream.protocol.StreamChannel;
 import com.commerce.stream.store.StreamTransactionHelper;
-import com.commerce.web.dto.CustomerDTO;
+import com.commerce.web.dto.event.CustomerDTO;
 
 @Component("clientReplyConsumer")
 public class ClientReplyConsumer {

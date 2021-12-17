@@ -1,7 +1,7 @@
 # Introduction
 
 * 練習規劃電子商務系統。
-* 服務註冊及請求路由，採用Service Mesh (Istio + Envoy)
+* 練習服務註冊及請求路由，採用Service Mesh (Istio + Envoy)
 
 ## 專案Local執行環境
 
@@ -12,9 +12,10 @@
 
   ```text
   # E-commerce
-  172.20.111.184 commerce-postgres
-  172.20.111.184 commerce-rabbit
-  172.20.111.184 commerce-redis
+  172.20.111.189 commerce-postgres
+  172.20.111.189 commerce-rabbit
+  172.20.111.189 commerce-redis
+  127.0.0.1 commerce-biz-customer
   ```
 
 ## E-Commerce Project Structure
@@ -30,4 +31,4 @@
 
 整合模組
 
-* commerce-web : Reactor 常用的功能。
+* commerce-web : Reactor 、Web 常用的功能。

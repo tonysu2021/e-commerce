@@ -7,8 +7,10 @@ spring:
       name: commerce-biz-order
   main:
     allow-bean-definition-overriding: true
+  profiles:
+    active: ${PROFILE_ACTIVE:local}
   webflux:
-    base-path: /commerce-biz-order
+    base-path: /api
   redis:
     host: commerce-redis
     port: 6379
