@@ -32,3 +32,15 @@
 整合模組
 
 * commerce-web : Reactor 、Web 常用的功能。
+
+
+## 整合組件部屬到本機.m2
+
+windows預設路徑 C:\Users\User\.m2\repository
+
+```sh
+# 必須先將共用組件commerce-web部屬至.m2
+mvn clean package deploy "-Dmaven.test.skip=true"
+
+mvn clean package "-Dmaven.test.skip=true"
+```

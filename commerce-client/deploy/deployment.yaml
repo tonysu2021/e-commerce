@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: commerce-client
+  name: commerce-client-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: commerce-client
+      version: v1
   template:
     metadata:
-      name: commerce-client
       labels:
         app: commerce-client
         version: v1
@@ -19,10 +19,36 @@ spec:
           image: commerce-client:0.0.1
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 10078
+            - containerPort: 10079
           env:
             - name: VERSION
               value: "v1"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: commerce-client-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: commerce-client
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: commerce-client
+        version: v2
+    spec:
+      containers:
+        - name: commerce-client
+          image: commerce-client:0.0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 10078
+          env:
+            - name: VERSION
+              value: "v2"
 ---
 # 作為叢集外部客戶端訪問入口
 apiVersion: v1

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: commerce-biz-v1
+  name: commerce-biz-customer-v1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: commerce-biz
+      app: commerce-biz-customer
       version: v1
   template:
     metadata:
       labels:
-        app: commerce-biz
+        app: commerce-biz-customer
         version: v1
     spec:
       containers:
-        - name: commerce-biz
-          image: commerce-biz:0.0.1
+        - name: commerce-biz-customer
+          image: commerce-biz-customer:0.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 10079
@@ -27,22 +27,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: commerce-biz-v2
+  name: commerce-biz-customer-v2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: commerce-biz
+      app: commerce-biz-customer
       version: v2
   template:
     metadata:
       labels:
-        app: commerce-biz
+        app: commerce-biz-customer
         version: v2
     spec:
       containers:
-        - name: commerce-biz
-          image: piomin/commerce-biz
+        - name: commerce-biz-customer
+          image: commerce-biz-customer:0.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 10079
@@ -53,13 +53,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: commerce-biz
+  name: commerce-biz-customer
   labels:
-    app: commerce-biz
+    app: commerce-biz-customer
 spec:
   type: ClusterIP
   ports:
-  - port: 10079
-    name: http
+    - port: 10079
+      name: http
   selector:
-    app: commerce-biz
+    app: commerce-biz-customer

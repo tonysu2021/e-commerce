@@ -9,7 +9,7 @@ services:
       - ./postgres/init/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
       - ./postgres/init/e-commerce-init.sql:/tmp/e-commerce-init.sql
     ports:
-      - "5432:5432"
+      - "30432:5432"
     environment:
       # Default Account: postgres
       - POSTGRES_USER=postgres

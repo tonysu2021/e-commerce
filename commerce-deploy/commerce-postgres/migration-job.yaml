@@ -21,16 +21,14 @@ spec:
           volumeMounts:
             - mountPath: /flyway/sql
               name: flyway-sql
-            - mountPath: /flyway/conf/flyway.config
+            - mountPath: /flyway/conf
               name: flyway-conf
       volumes:
         - name: flyway-sql
-          hostPath:
-            path: /opt/flyway/sql
-            type: DirectoryOrCreate
+          configMap:
+            name: migration-configmap-sql
         - name: flyway-conf
-          hostPath:
-            path: /opt/flyway/conf/flyway.config
-            type: File
+          configMap:
+            name: migration-configmap-config
       restartPolicy: Never
   backoffLimit: 1

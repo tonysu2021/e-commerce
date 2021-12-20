@@ -1,19 +1,6 @@
-# First Stage
-FROM commerce-web:0.0.1 as builder
+FROM azul/zulu-openjdk-alpine:13.0.7
 
-# Workspace path
-WORKDIR /usr/app
-
-# Copy build file
-COPY ./ ./
-COPY ./src ./src
-
-# Maven build
-RUN mvn clean package -Dmaven.test.skip=true
-
-# Second Stage
-FROM maven:3.6.1-jdk-13-alpine
-
+ENV PROFILE_ACTIVE=dev
 ENV SERVICE_NAME="commerce-biz-product"
 
 RUN apk add --no-cache tzdata && \
@@ -27,6 +14,6 @@ RUN mkdir /workspace && \
 
 WORKDIR /workspace/${SERVICE_NAME}
 
-COPY --from=builder /usr/app/target/${SERVICE_NAME}-0.0.1-SNAPSHOT.jar /workspace/app.jar
+COPY ${SERVICE_NAME}-0.0.1-SNAPSHOT.jar /workspace/app.jar
 
 ENTRYPOINT ["java", "-jar", "/workspace/app.jar"]
