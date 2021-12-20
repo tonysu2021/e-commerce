@@ -8,9 +8,6 @@ spec:
     - name: v1
       labels:
         version: v1
-    - name: v2
-      labels:
-        version: v2
 #  trafficPolicy: # --- enable for adding circuit breaker into DestinationRule
 #    connectionPool:
 #      http:
@@ -34,12 +31,7 @@ spec:
     - route:
       - destination:
           host: commerce-trading-center
-          subset: v2
-        weight: 80
-      - destination:
-          host: commerce-trading-center
           subset: v1
-        weight: 20
       retries:
         attempts: 3
         retryOn: gateway-error,connect-failure,refused-stream
