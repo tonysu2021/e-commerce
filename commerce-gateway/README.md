@@ -17,9 +17,25 @@
     echo "Gateway url : ${ingress_host}:${ingress_port}"
     ```
 
+  * 方法二: 安裝Metallb
 
-  * 方法二: 修改`EXTERNAL-IP`
+    ```sh
+
+    ## 安裝
+    # https://raw.githubusercontent.com/google/metallb/v0.8.3/manifests/metallb.yaml
+    kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.3/manifests/metallb.yaml
+    
+    ## 驗證
+    kubectl get pods -n metallb-system -o wide
+
+    ## 設定
+    kubectl apply -f metallb_configmap.yml
+    ```
 
 成功結果如圖:
 
 <p align="center"><img src="./image/test-result.png" width="75%"/></p>
+
+## Reference
+
+[13.Load-Balancer](https://github.com/ansilh/kubernetes-the-hardway-virtualbox/blob/master/13.Load-Balancer.md)
