@@ -107,7 +107,7 @@ public class CustomerController {
 				.onErrorReturn(ServerSentEvent.builder(new CustomerDTO()).event("close").build());
 	}
 	
-	@PostMapping(value = "/{type}",produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/{type}")
 	public ResponseEntity<Mono<String>> normal(@PathVariable String type,
 			@RequestBody StreamRequest request) {
 		StreamActionType streamType = StreamActionType.getInstanceOf(type);
