@@ -13,8 +13,12 @@ spring:
     base-path: /commerce-client
 
 ## 自定義            
+# Oauth Client
 commerce:
   secret:
     client-id: clientapp
     client-secret: 123
-    
+# 分散式ID生成設定
+snowflake:
+  datacenter-id: ${DATACENTER_ID:1}
+  worker-id: ${WORKER_ID:1}

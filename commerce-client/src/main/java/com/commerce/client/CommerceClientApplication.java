@@ -6,11 +6,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.auth.common.annotation.EnableAuth;
 import com.commerce.cache.EnableCache;
 import com.commerce.web.annotation.EnableCommonService;
+import com.commerce.web.annotation.EnableSnowflake;
 
 @SpringBootApplication
 @EnableCache
 @EnableAuth
 @EnableCommonService
+@EnableSnowflake
 public class CommerceClientApplication {
 
 	public static void main(String[] args) {
