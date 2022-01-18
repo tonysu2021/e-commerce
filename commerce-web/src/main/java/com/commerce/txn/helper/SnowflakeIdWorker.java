@@ -1,4 +1,4 @@
-package com.commerce.web.util;
+package com.commerce.txn.helper;
 
 /**
  * SnowFlake雪花算法
