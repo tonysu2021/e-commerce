@@ -1,4 +1,4 @@
-package com.commerce.web.conf;
+package com.commerce.txn.conf;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

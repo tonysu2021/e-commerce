@@ -1,4 +1,4 @@
-package com.commerce.web.conf;
+package com.commerce.txn.conf;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

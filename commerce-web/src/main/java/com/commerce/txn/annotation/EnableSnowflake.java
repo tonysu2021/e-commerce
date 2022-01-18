@@ -1,4 +1,4 @@
-package com.commerce.web.annotation;
+package com.commerce.txn.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.commerce.web.conf.SnowflakeConfig;
-import com.commerce.web.conf.SnowflakeConfigProp;
+import com.commerce.txn.conf.SnowflakeConfig;
+import com.commerce.txn.conf.SnowflakeConfigProp;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
