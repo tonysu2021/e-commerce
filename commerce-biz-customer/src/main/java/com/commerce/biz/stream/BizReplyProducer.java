@@ -33,10 +33,11 @@ public class BizReplyProducer {
 
 	
 	public <T> void sendToCustomerBroadcast(StreamMessageDTO<T> message) {
-		LOGGER.info("[Biz-Reply-Producer] Sending Message {} to Client from customer", message);
+		UUID uuid = UUID.randomUUID();
+		LOGGER.info("[Biz-Reply-Producer] Sending Message ({}) {} to Client from customer",uuid, message);
 		msgBizChannel.send(MessageBuilder.withPayload(message)
 				.setHeader(StreamHeader.X_SERVER_ID, serverInfo.getServerId())
-				.setHeader(StreamHeader.X_MESSAGE_ID, UUID.randomUUID())
+				.setHeader(StreamHeader.X_MESSAGE_ID, uuid)
 				.setHeader(StreamHeader.X_EVENT_TYPE, StreamActionType.BROADCAST)
 				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build());
 	}

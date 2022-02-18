@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.auth.common.annotation.EnableAuth;
 import com.commerce.cache.EnableCache;
+import com.commerce.txn.annotation.EnableSnowflake;
 import com.commerce.web.annotation.EnableCommonService;
-import com.commerce.web.annotation.EnableSnowflake;
 
 @SpringBootApplication
 @EnableCache

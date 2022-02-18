@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.commerce.cache.client.CacheManager;
-import com.commerce.reactor.EventSource;
+import com.commerce.reactor.EventBus;
 import com.commerce.web.dto.event.CustomerDTO;
 import com.commerce.web.dto.request.CustomerPostRequest;
 import com.commerce.web.dto.request.CustomerPutRequest;
@@ -25,8 +25,8 @@ public class CustomerService {
 	private CustomerProtocol protocol;
 
 	@Autowired
-	@Qualifier("eventSource")
-	private EventSource<CustomerDTO> eventSource;
+	@Qualifier("eventBus")
+	private EventBus<CustomerDTO> eventSource;
 
 	public Flux<CustomerDTO> findAll() {
 		return protocol.getCustomerList();

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-kubectl apply -f configmap.yaml
+kubectl apply -f ./k8s/configmap.yaml
 
-kubectl apply -f storage-pv.yaml
+kubectl apply -f ./k8s/storage-pv.yaml
 
-kubectl apply -f deployment.yaml
+kubectl apply -f ./k8s/deployment.yaml

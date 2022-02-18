@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.commerce.biz.entity.CustomerEntity;
 import com.commerce.biz.repository.CustomerRepository;
@@ -39,6 +40,7 @@ public class CustomerService {
 		return customerAppRepository.findByAppId(customerId, null);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	public Mono<CustomerEntity> saveCustomer(String customerId, String name, String email ,String createBy) {
 		CustomerEntity customer = new CustomerEntity();
 		customer.setCustomerId(customerId);
@@ -52,6 +54,12 @@ public class CustomerService {
 				.doOnSuccess(data -> sendMsg(data,EventType.DATA_CREATE));
 	}
 
+	/**
+	 * 切記，若外層有@Transactional，並且外層方法拋出異常，會讓內層一起回滾。 <br>
+	 * 備註: @Transactional 預設propagation = Propagation.REQUIRED
+	 * 
+	 * */
+	@Transactional(rollbackFor = Exception.class)
 	public Mono<CustomerEntity> updateCustomer(CustomerEntity customer, String modifyBy) {
 		customer.setModifyTime(Instant.now());
 		customer.setModifyBy(modifyBy);

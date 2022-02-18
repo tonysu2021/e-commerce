@@ -11,15 +11,3 @@ spring:
     active: ${PROFILE_ACTIVE:local}
   webflux:
     base-path: /api
-  redis:
-    host: commerce-redis
-    port: 6379
-    timeout: 5000
-  r2dbc:
-    url: r2dbc:pool:postgres://commerce-postgres:5432/commerce_db
-    username: postgres
-    password: postgres
-  # For Rabbit Listener  
-  rabbitmq:
-    host: commerce-rabbit
-    port: 5672

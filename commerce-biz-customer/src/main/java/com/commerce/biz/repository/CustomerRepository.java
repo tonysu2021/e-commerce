@@ -13,6 +13,6 @@ public interface CustomerRepository extends ReactiveCrudRepository<CustomerEntit
 
 	@Query("Select * From cloud.customer customer Where customer.customer_id = :customerId "
 			+ "And (:enabled is null or customer.enabled = :enabled) ")
-	public Mono<CustomerEntity> findByAppId(String customerId,Boolean enabled);
+	public Mono<CustomerEntity> findByAppId(String customerId, Boolean enabled);
 	
 }

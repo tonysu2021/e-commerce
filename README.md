@@ -3,6 +3,10 @@
 * 練習規劃電子商務系統。
 * 練習服務註冊及請求路由，採用Service Mesh (Istio + Envoy)
 
+## Members
+
+Tony.su
+
 ## 專案Local執行環境
 
 * Java 13 (jdk-13.0.2)
@@ -32,7 +36,6 @@
 整合模組
 
 * commerce-web : Reactor 、Web 常用的功能。
-
 
 ## 整合組件部屬到本機.m2
 

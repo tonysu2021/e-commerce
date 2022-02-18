@@ -33,6 +33,7 @@ spec:
         - name: postgres-pv-storage
           persistentVolumeClaim:
             claimName: postgres-pv-claim
+        # 必須先將init資料夾放在每一台server。
         - name: init-volume
           hostPath:
             path: /opt/postgres/init

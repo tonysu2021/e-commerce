@@ -14,13 +14,13 @@ import reactor.core.scheduler.Schedulers;
  * 
  * @author Tony.su
  */
-public class EventSource<T> {
+public class EventBus<T> {
 
 	private EventProcessor<T> eventProcessor;
 
 	private Flux<T> flux;
 
-	public EventSource(EventProcessor<T> eventProcessor) {
+	public EventBus(EventProcessor<T> eventProcessor) {
 		super();
 		this.eventProcessor = eventProcessor;
 		this.flux = createBridge().subscribeOn(Schedulers.newParallel("event-scheduler", 10));

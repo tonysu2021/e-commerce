@@ -8,7 +8,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import com.commerce.reactor.EventSource;
+import com.commerce.reactor.EventBus;
 import com.commerce.stream.annotation.EventHandler;
 import com.commerce.stream.constant.StreamActionType;
 import com.commerce.stream.constant.StreamHeader;
@@ -21,8 +21,8 @@ import com.commerce.web.dto.event.CustomerDTO;
 public class ClientReplyConsumer {
 	
 	@Autowired
-	@Qualifier("eventSource")
-	private EventSource<CustomerDTO> eventSource;
+	@Qualifier("eventBus")
+	private EventBus<CustomerDTO> eventSource;
 
 	@Autowired
 	@Qualifier("streamTransactionHelper")

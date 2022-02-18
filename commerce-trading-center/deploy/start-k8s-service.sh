@@ -1,5 +1,5 @@
 #!/bin/sh
 
-kubectl apply -f deployment.yaml
+kubectl apply -f ./k8s/deployment.yaml
 
-kubectl apply -f istio-rules.yaml
+kubectl apply -f ./k8s/istio-rules.yaml

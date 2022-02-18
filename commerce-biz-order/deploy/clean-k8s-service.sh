@@ -1,5 +1,5 @@
 #!/bin/sh
 
-kubectl delete -f istio-rules.yaml
+kubectl delete -f ./k8s/istio-rules.yaml
 
-kubectl delete -f deployment.yaml
+kubectl delete -f ./k8s/deployment.yaml
